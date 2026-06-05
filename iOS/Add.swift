@@ -139,7 +139,7 @@ final class Add: UIView {
             }) {
                 app.alert(.key("Alert.commit"), message: self.text.text)
                 self.text.text = ""
-                app.tab.history.choose()
+                app.tabs.history.choose()
                 if app._history.content != nil {
                     app._history.load(true)
                 }

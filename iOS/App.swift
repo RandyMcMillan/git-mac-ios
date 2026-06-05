@@ -7,7 +7,7 @@ private(set) weak var app: App!
 
 @UIApplicationMain final class App: UIViewController, UIApplicationDelegate, UNUserNotificationCenterDelegate, UIDocumentBrowserViewControllerDelegate {
     var window: UIWindow?
-    private(set) weak var tab: Tab!
+    private(set) weak var tabs: Tab!
     private(set) weak var _home: Home!
     private(set) weak var _history: History!
     private(set) weak var _settings: Settings!
@@ -53,7 +53,7 @@ private(set) weak var app: App!
         
         let tab = Tab()
         view.addSubview(tab)
-        self.tab = tab
+        self.tabs = tab
         
         tab.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tab.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -165,7 +165,7 @@ private(set) weak var app: App!
     func add() {
         if repository == nil {
             Alert(message: .key("App.noRepository"))
-            tab.home.choose()
+            tabs.home.choose()
         } else {
             show(_add)
             _add.text.becomeFirstResponder()
@@ -175,7 +175,7 @@ private(set) weak var app: App!
     func history() {
         if repository == nil {
             Alert(message: .key("App.noRepository"))
-            tab.home.choose()
+            tabs.home.choose()
         } else {
             show(_history)
             _history.load(false)
@@ -256,6 +256,10 @@ private(set) weak var app: App!
         }
     }
     
-    private func show(_ view: UIView) { [_settings, _market, _home, _add, _history].forEach { $0?.isHidden = $0 !== view } }
+    private func show(_ view: UIView) {
+        [_settings, _market, _home, _add, _history].compactMap { $0 }.forEach { item in
+            item.isHidden = item !== view
+        }
+    }
     @objc private func back() { dismiss(animated: true) }
 }

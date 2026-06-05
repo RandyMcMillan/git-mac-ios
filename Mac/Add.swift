@@ -93,7 +93,7 @@ final class Add: Window {
         }
     }
     
-    private weak var text: Text!
+    private var text: Text!
     
     init() {
         super.init(400, 400, style: .resizable)
